@@ -12,6 +12,8 @@ func main(){
 	var remainingTickets uint =50
 	var bookings =[]string{}
 
+	greetUsers()
+
 	fmt.Printf("conferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n",conferenceTickets,remainingTickets,conferenceName)
 
 	fmt.Printf("Welcome to %v booking application\n",conferenceName)
@@ -36,42 +38,59 @@ func main(){
 		fmt.Println("Enter number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		remainingTickets =remainingTickets -userTickets
-		if remainingTickets<0{
-			
-			fmt.Println("Remaining tickets are not enough for your request!")
-			break
-			
+		isValidName :=len(firstName) >=2 && len(lastName) >=2
+		isValidEmail := strings.Contains(email, "@")
+		isValidEmailTicketNumber := userTickets >0 && userTickets<=remainingTickets
 
-		}
-		bookings = append(bookings, firstName + " " + lastName)
+		//isInvalidCity := city !="Singapore" || city !="London"
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will be receiving a confirmation email at %v\n", firstName, lastName, userTickets,email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets,conferenceName)
-		firstNames :=[]string{}
-		for _ ,booking :=range bookings{
-			var names = strings.Fields(booking)
-			
-			firstNames = append(firstNames,names[0])
 
-		}
-
-		fmt.Printf("Theses are all our bookings: %v\n" ,firstNames)
-		noTicketsRemaining:=remainingTickets==0 
-		if noTicketsRemaining{
-
-			fmt.Println("Our conference tickets are sold out!")
-			break
+		if isValidName &&isValidEmail && isValidEmailTicketNumber {
+			remainingTickets =remainingTickets -userTickets
+		
+			bookings = append(bookings, firstName + " " + lastName)
 	
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will be receiving a confirmation email at %v\n", firstName, lastName, userTickets,email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets,conferenceName)
+			firstNames :=[]string{}
+			for _ ,booking :=range bookings{
+				var names = strings.Fields(booking)
+				
+				firstNames = append(firstNames,names[0])
+	
+			}
+	
+			fmt.Printf("Theses are all our bookings: %v\n" ,firstNames)
+			noTicketsRemaining:=remainingTickets==0 
+			if noTicketsRemaining{
+	
+				fmt.Println("Our conference tickets are sold out!")
+				break
+		
+			}
+
+		}else{
+			
+			if !isValidName{
+				fmt.Println("Your name input is wrong")
+			}
+			if !isValidEmail{
+				fmt.Println("Your email is invaild. Include the right format of email.")
+			}
+			if !isValidEmailTicketNumber{
+				fmt.Printf("Your ticket request is invalid, our remaining tickets are %v, adjust to this one.", remainingTickets)
+			}
+
+		
 		}
+		
+
 
 	}
 	
 
+}
 
-
-
-	
-
-
+func greetUsers () {
+	fmt.Println("Welcome to our conference")
 }
