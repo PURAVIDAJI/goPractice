@@ -37,6 +37,13 @@ func main(){
 		fmt.Scan(&userTickets)
 
 		remainingTickets =remainingTickets -userTickets
+		if remainingTickets<0{
+			
+			fmt.Println("Remaining tickets are not enough for your request!")
+			break
+			
+
+		}
 		bookings = append(bookings, firstName + " " + lastName)
 
 		fmt.Printf("Thank you %v %v for booking %v tickets. You will be receiving a confirmation email at %v\n", firstName, lastName, userTickets,email)
